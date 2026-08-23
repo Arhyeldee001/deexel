@@ -23,44 +23,101 @@ class AdminSeeder extends Seeder
 
         // Create view + manage permission for every module
         foreach (self::MODULES as $module) {
-            Permission::firstOrCreate(['name' => 'view '.$module, 'guard_name' => 'web']);
-            Permission::firstOrCreate(['name' => 'manage '.$module, 'guard_name' => 'web']);
+            Permission::firstOrCreate([
+                'name' => 'view '.$module,
+                'guard_name' => 'web',
+            ]);
+
+            Permission::firstOrCreate([
+                'name' => 'manage '.$module,
+                'guard_name' => 'web',
+            ]);
         }
 
         // Roles
-        $superAdmin = Role::firstOrCreate(['name' => 'super-admin', 'guard_name' => 'web']);
-        $admin      = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
-        $editor     = Role::firstOrCreate(['name' => 'editor', 'guard_name' => 'web']);
+        $superAdmin = Role::firstOrCreate([
+            'name' => 'super-admin',
+            'guard_name' => 'web',
+        ]);
 
-        // super-admin: everything
+        $admin = Role::firstOrCreate([
+            'name' => 'admin',
+            'guard_name' => 'web',
+        ]);
+
+        $editor = Role::firstOrCreate([
+            'name' => 'editor',
+            'guard_name' => 'web',
+        ]);
+
+        // Super-admin gets everything
         $superAdmin->syncPermissions(Permission::all());
 
-        // admin: full read/write on content + settings + legal, plus read/write messages (no users/roles)
+        // Admin permissions
         $admin->syncPermissions($this->permsFor(
-            ['pages', 'services', 'projects', 'team', 'faqs', 'blog', 'messages', 'settings', 'legal'],
+            [
+                'pages',
+                'services',
+                'projects',
+                'team',
+                'faqs',
+                'blog',
+                'messages',
+                'settings',
+                'legal',
+            ],
             ['view', 'manage']
         ));
 
-        // editor: read/write content, read-only messages
+        // Editor permissions
         $editor->syncPermissions(array_merge(
-            $this->permsFor(['services', 'projects', 'team', 'faqs', 'blog'], ['view', 'manage']),
+            $this->permsFor(
+                [
+                    'services',
+                    'projects',
+                    'team',
+                    'faqs',
+                    'blog',
+                ],
+                ['view', 'manage']
+            ),
             ['view messages']
         ));
 
-        // First super-admin account (password preserved on re-run)
+        /*
+         * Production admin account.
+         *
+         * The email and password come from environment variables.
+         * This prevents production credentials from being stored in Git.
+         */
+        $email = env('ADMIN_EMAIL', 'admin@deexeladmin.com');
+        $password = env('ADMIN_PASSWORD');
+
+        if (!$password) {
+            throw new \RuntimeException(
+                'ADMIN_PASSWORD is not configured.'
+            );
+        }
+
         $user = User::firstOrCreate(
-            ['email' => 'admin@quintech.local'],
-            ['name' => 'Quin Admin', 'password' => Hash::make('ChangeMe!2026')]
+            ['email' => $email],
+            [
+                'name' => 'Quin Admin',
+                'password' => Hash::make($password),
+            ]
         );
+
+        // Make sure the account always has the super-admin role.
         $user->syncRoles(['super-admin']);
     }
 
     private function permsFor(array $modules, array $actions): array
     {
         $out = [];
-        foreach ($modules as $m) {
-            foreach ($actions as $a) {
-                $out[] = $a.' '.$m;
+
+        foreach ($modules as $module) {
+            foreach ($actions as $action) {
+                $out[] = $action.' '.$module;
             }
         }
 
