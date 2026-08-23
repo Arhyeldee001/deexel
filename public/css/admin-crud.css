@@ -1,0 +1,37 @@
+/* Quin Tech — admin CRUD (Services, Projects, Team, FAQs, Blog) */
+.crud-top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:16px;}
+.crud-list{display:flex;flex-direction:column;gap:10px;max-width:900px;}
+.thumb-ico{width:34px;height:34px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--acc) 14%,transparent);color:var(--acc);}
+.thumb-ico svg{width:18px;height:18px;}
+.thumb-img{width:38px;height:34px;border-radius:8px;overflow:hidden;flex:none;border:1px solid var(--bd);}
+.thumb-img img{width:100%;height:100%;object-fit:cover;}
+.avatar{width:34px;height:34px;border-radius:50%;overflow:hidden;flex:none;border:1px solid var(--bd);}
+.avatar img{width:100%;height:100%;object-fit:cover;}
+.avatar-blank{display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--acc) 16%,transparent);color:var(--acc);font-weight:600;font-family:'Space Grotesk';font-size:15px;}
+.status-tag{font-size:10px;letter-spacing:.05em;text-transform:uppercase;border-radius:6px;padding:3px 8px;border:1px solid var(--bd);color:var(--mut);}
+.status-tag.published{color:#4ade80;border-color:rgba(74,222,128,.35);background:rgba(74,222,128,.1);}
+.status-tag.draft{color:#fbbf24;border-color:rgba(251,191,36,.35);background:rgba(251,191,36,.1);}
+.post-date{font-size:12px;color:var(--mut);}
+
+.crud-form{max-width:820px;}
+.form-actions{display:flex;align-items:center;gap:12px;margin-top:8px;}
+.form-errors{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.35);color:#fca5a5;padding:11px 14px;border-radius:10px;margin-bottom:16px;font-size:14px;max-width:820px;}
+.checkline.align-end{align-self:end;padding-bottom:10px;}
+input[type=file]{color:var(--mut);font-size:13px;}
+input[type=date]{background:var(--panel-2);border:1px solid var(--bd);border-radius:9px;color:var(--tx);padding:10px 12px;font-size:14px;font-family:inherit;outline:none;width:100%;}
+input[type=date]:focus{border-color:var(--acc);}
+
+/* ---------- Quill dark theme ---------- */
+.quill-editor{min-height:200px;}
+.ql-toolbar.ql-snow{border-color:var(--bd);background:var(--panel-2);border-radius:9px 9px 0 0;}
+.ql-container.ql-snow{border-color:var(--bd);background:var(--panel-2);border-radius:0 0 9px 9px;font-family:inherit;font-size:14.5px;color:var(--tx);}
+.ql-editor{min-height:200px;line-height:1.7;}
+.ql-editor.ql-blank::before{color:rgba(255,255,255,.3);font-style:normal;}
+.ql-snow .ql-stroke{stroke:var(--mut);}
+.ql-snow .ql-fill{fill:var(--mut);}
+.ql-snow .ql-picker{color:var(--mut);}
+.ql-snow.ql-toolbar button:hover .ql-stroke,.ql-snow .ql-active .ql-stroke{stroke:var(--acc);}
+.ql-snow.ql-toolbar button:hover .ql-fill,.ql-snow .ql-active .ql-fill{fill:var(--acc);}
+.ql-snow .ql-picker-options{background:var(--panel);border-color:var(--bd)!important;}
+.ql-editor a{color:var(--acc);}
+.ql-editor blockquote{border-left:3px solid var(--acc);padding-left:14px;color:var(--mut);}
