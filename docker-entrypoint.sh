@@ -7,6 +7,9 @@ php artisan config:clear
 # Run database migrations (safe to run on every deploy; only applies new ones)
 php artisan migrate --force
 
+# TEMPORARY: seed initial content into the fresh database (remove after first successful run)
+php artisan db:seed --force
+
 # Cache config, routes, and views for performance
 php artisan config:cache
 php artisan route:cache
